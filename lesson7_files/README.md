@@ -24,17 +24,41 @@ lesson7_files/
 
 ## Quick Start
 
-1. Install dependencies:
+1. Create a virtual environment and install dependencies:
    ```bash
-   pip install -r requirements.txt
+   python3 -m venv .venv
+   .venv/bin/pip install -r requirements.txt
    ```
 
-2. Open the notebook:
+2. Run the Streamlit dashboard:
    ```bash
-   jupyter notebook EDA_Refactored.ipynb
+   .venv/bin/streamlit run dashboard.py
    ```
 
-3. Set the analysis parameters in the first code cell and run all cells.
+3. Or open the notebook:
+   ```bash
+   .venv/bin/jupyter notebook EDA_Refactored.ipynb
+   ```
+
+## Dashboard
+
+`dashboard.py` is a Streamlit application with the following layout:
+
+**Header** — Title on the left; Year and Month filters on the right (default: 2023, All Months). All charts update when filters change.
+
+**KPI Row** — Four metric cards with trend indicators vs the prior year:
+- Total Revenue, Monthly Growth, Avg Order Value, Total Orders
+- Green arrow = positive trend, red arrow = negative trend
+
+**Charts (2 x 2 grid)** — All charts use Plotly:
+- Monthly Revenue Trend: solid line = selected year, dashed = prior year, Y-axis in $K/$M
+- Top 10 Categories: horizontal bar chart with blue gradient, sorted descending by revenue
+- Revenue by State: US choropleth map with blue gradient
+- Customer Satisfaction by Delivery Speed: bar chart of avg review score per delivery bucket
+
+**Bottom Row** — Two summary cards:
+- Average Delivery Time with trend indicator (lower = better = green)
+- Review Score with star rating and "Average Review Score" subtitle
 
 ## Configuring the Analysis
 
