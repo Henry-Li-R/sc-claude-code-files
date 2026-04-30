@@ -5,9 +5,6 @@ Data loading and processing module for e-commerce data analysis.
 import pandas as pd
 import numpy as np
 from typing import Dict, Tuple, Optional
-import warnings
-
-warnings.filterwarnings('ignore')
 
 
 class EcommerceDataLoader:
@@ -168,13 +165,13 @@ class EcommerceDataLoader:
                 how='left'
             )
         
-        # Add review information
+        # Add review information (one review per order to avoid row duplication)
         if 'reviews' in self.raw_data:
-            sales_data = sales_data.merge(
-                self.raw_data['reviews'][['order_id', 'review_score']],
-                on='order_id',
-                how='left'
+            reviews_dedup = (
+                self.raw_data['reviews'][['order_id', 'review_score']]
+                .drop_duplicates(subset='order_id', keep='first')
             )
+            sales_data = sales_data.merge(reviews_dedup, on='order_id', how='left')
         
         # Calculate delivery metrics
         if 'order_delivered_customer_date' in sales_data.columns and 'order_purchase_timestamp' in sales_data.columns:
